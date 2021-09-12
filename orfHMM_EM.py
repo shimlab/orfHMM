@@ -1224,12 +1224,12 @@ def EM_iter(RNA_data, observed_data, E, trans_init, alpha_init, beta_init, epsil
     
     log_links = []
     log_links.append(incomplete_log_likelihood(forward, observed_data, alpha_init, beta_init, E))
-    print(log_links) ##remove
+    ##print(log_links) ##remove
     
     delta = 1
     n_iter = 1
     while((delta > epsilon) and (n_iter < max_iter)):
-        print("iteration" + str(n_iter)) ##remove
+        ##print("iteration" + str(n_iter)) ##remove
         
         curr_trans = trans.copy()
         curr_alpha_list = alpha_list.copy()
@@ -1240,7 +1240,7 @@ def EM_iter(RNA_data, observed_data, E, trans_init, alpha_init, beta_init, epsil
         
         # update rho_u_ci, rho_ci, delta_ci
         trans = update_three_parameters(forward, backward, RNA_data, observed_data, alpha_list, beta_list, E, trans, stop_codon_list, model1)
-        print(trans) ##remove
+        ##print(trans) ##remove
         
         # order of updating 
         if model1 == True:
@@ -1253,18 +1253,18 @@ def EM_iter(RNA_data, observed_data, E, trans_init, alpha_init, beta_init, epsil
         for i in state_list:
             state = i
            
-            print("state"+str(state)) ##remove
+            ##print("state"+str(state)) ##remove
             res = minimize(object_function_alpha, alpha_list[state-1], method='BFGS', tol = 1, jac=derivative_function_alpha, args = (state, forward, observed_data, beta_list, E, L), options={'disp': False, 'maxiter': 10,'gtol': 1})
             alpha_list[state-1] = res.x[0]
-            print("alpha"+str(res.x[0])) ##remove
+            ##print("alpha"+str(res.x[0])) ##remove
             
             if fixed == False:
                 res = minimize(object_function_beta, beta_list[state-1], method='nelder-mead', tol = 1, args = (state, forward, observed_data, alpha_list, E, L), options={'disp': False})
                 beta_list[state-1] = res.x[0]
-                print("beta"+str(res.x[0])) ##remove
+                ##print("beta"+str(res.x[0])) ##remove
         
-        print(alpha_list) ##remove
-        print(beta_list) ##remove
+        ##print(alpha_list) ##remove
+        ##print(beta_list) ##remove
 
         # update forwad and backward
         forward = forward_matrix(RNA_data, observed_data, alpha_list, beta_list, E, trans, stop_codon_list, model1)
@@ -1275,7 +1275,7 @@ def EM_iter(RNA_data, observed_data, E, trans_init, alpha_init, beta_init, epsil
         delta = log_links[-1] - log_links[-2]
         n_iter += 1
         
-        print(log_links) ##remove
+        ##print(log_links) ##remove
 
     # if log likelihood decreases, use previous parameters
     if (delta < 0):
